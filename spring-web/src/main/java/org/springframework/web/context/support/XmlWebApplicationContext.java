@@ -82,6 +82,10 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
+		/*
+			构造beanDefinitionReader
+			用于生成读取beanDefinition的reader
+		 */
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
 		beanDefinitionReader.setEnvironment(getEnvironment());
@@ -91,6 +95,9 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
 		initBeanDefinitionReader(beanDefinitionReader);
+		/*
+			实际加载beanDefinition
+		 */
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -104,6 +111,9 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
 	 */
 	protected void initBeanDefinitionReader(XmlBeanDefinitionReader beanDefinitionReader) {
+		/*
+			可以在子类中被重写，然后用于关闭校验或更换parser的实现类
+		 */
 	}
 
 	/**
@@ -119,6 +129,9 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws IOException {
+		/*
+		 	通过reader从配置路径加载beanDefinition
+		 */
 		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
 			for (String configLocation : configLocations) {
