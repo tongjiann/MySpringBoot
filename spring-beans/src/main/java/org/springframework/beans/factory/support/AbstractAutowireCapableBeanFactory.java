@@ -591,6 +591,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
+			// 创建对象，类似于实例化
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 		Object bean = instanceWrapper.getWrappedInstance();
@@ -627,6 +628,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			// 对象属性进行赋值
 			populateBean(beanName, mbd, instanceWrapper);
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		} catch (Throwable ex) {
@@ -979,6 +981,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * Obtain a reference for early access to the specified bean,
 	 * typically for the purpose of resolving a circular reference.
+	 * <br>
+	 * 获取bean的早期对象，避免循环依赖
 	 *
 	 * @param beanName the name of the bean (for error handling purposes)
 	 * @param mbd      the merged bean definition for the bean
@@ -986,12 +990,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return the object to expose as bean reference
 	 */
 	protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
+		// 暴漏出来的对象
 		Object exposedObject = bean;
+
 		if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 			for (SmartInstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().smartInstantiationAware) {
+				// 内部实际的作用是生成代理对象
 				exposedObject = bp.getEarlyBeanReference(exposedObject, beanName);
 			}
 		}
+		// 如果没有进判断则返回原始对象
 		return exposedObject;
 	}
 
@@ -1458,6 +1466,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
+			// 实际赋值方法
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
