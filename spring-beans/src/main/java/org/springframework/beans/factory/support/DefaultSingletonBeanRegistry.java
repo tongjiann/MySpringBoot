@@ -229,11 +229,13 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			// 从二级缓存中去取
 			singletonObject = this.earlySingletonObjects.get(beanName);
+			// 如果二级缓存中也没有，则从三级缓存中获取lambda表达式并生成对应的bean
 			if (singletonObject == null && allowEarlyReference) {
 				// 锁定全局变量并进行处理
 				synchronized (this.singletonObjects) {
 					// Consistent creation of early reference within full singleton lock
-					// 拿到的是一个lambda表达式
+					// double-check，再依次从一级、二级、三级缓存中去获取bean
+					// 如果最后到三级缓存，则最终拿到的是一个lambda表达式
 					singletonObject = this.singletonObjects.get(beanName);
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
