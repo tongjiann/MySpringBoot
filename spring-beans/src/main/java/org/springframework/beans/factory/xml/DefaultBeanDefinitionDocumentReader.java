@@ -175,6 +175,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				if (node instanceof Element) {
 					Element ele = (Element) node;
 					// 根据是否默认的命名空间进行不同的加载
+					// 这里的默认命名空间的意思是指引入的xml文件中的标签(如beans bean alias import等)
+					// 是否由http://www.springframework.org/schema/beans而来
+					// 如果是从这里面来，就是默认命名空间
 					if (delegate.isDefaultNamespace(ele)) {
 						parseDefaultElement(ele, delegate);
 					}
