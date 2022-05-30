@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="person" class="com.xiw.bean.Person">
+        <property name="name" value="Xiwang_Tong">
+
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <!--        如果配置这个属性相当于通过他的方法放到customEditors中，可以直接放到这个属性里面-->
+        <!--        <property name="propertyEditorRegistrars">-->
+        <!--            <list>-->
+        <!--                <bean class="com.xiw.bfpp.MyPropertyEditorRegistrar"/>-->
+        <!--            </list>-->
+        <!--        </property>-->
+        <property name="customEditors">
+            <map>
+                <entry key="com.xiw.bean.Name" value="com.xiw.bfpp.MyPropertyEditor"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--设置aware接口-->
+    <bean class="com.xiw.aware.MyAwarePostProcessor"/>
+</beans>

@@ -1354,6 +1354,7 @@ public class BeanDefinitionParserDelegate {
         BeanDefinitionHolder finalDefinition = originalDef;
 
         // Decorate based on custom attributes first.
+        // 对bean进行自定义标签的装饰/填充
         NamedNodeMap attributes = ele.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
             Node node = attributes.item(i);
@@ -1361,6 +1362,7 @@ public class BeanDefinitionParserDelegate {
         }
 
         // Decorate based on custom nested elements.
+        // 对bean的子元素进行装饰
         NodeList children = ele.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);

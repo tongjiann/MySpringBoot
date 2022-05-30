@@ -307,6 +307,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	@Override
 	public int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException {
+		// EncodedResource 设置资源的编码规则和字符集，如果不传就为null，不知道有什么用。。。
 		return loadBeanDefinitions(new EncodedResource(resource));
 	}
 
