@@ -10,11 +10,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Test {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("myEditorContext.xml");
+//        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("myEditorContext.xml");
+        // 两种实现方式，一种是在xml文件中进行配置，另外一种是重写ClassPathXmlApplicationContext，在customizeBeanFactory中进行添加bfpp
+//        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //noinspection resource
+        ClassPathXmlApplicationContext applicationContext = new MyClassPathXmlApplicationContext("applicationContext.xml");
         Person bean = applicationContext.getBean(Person.class);
-        Person p2 = new Person();
         System.out.println(bean);
-//        System.out.println("==============");
-//        System.out.println(p2);
     }
 }
