@@ -82,7 +82,15 @@ class ConditionEvaluator {
 			return false;
 		}
 
+		// 第一次进来一定是空的，进行下面的判断
 		if (phase == null) {
+			//下面的逻辑判断中，需要进入ConfigurationClassUtils.isConfigurationCandidate方法，主要的逻辑如下：
+			// 1、metadata是AnnotationMetadata类的一个实例
+			// 2、检查bean中是否使用@Configuration注解
+			// 3、检查bean不是一个接口
+			// 4、检查bean中是否包含@Component acomponentScan @Import @ImportResource中任意1个
+			// 5、检查bean中是否有aBean注解
+			// 只要满足其中1,2或者1，3或者1，4或者1,5就会继续递归
 			if (metadata instanceof AnnotationMetadata &&
 					ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
 				return shouldSkip(metadata, ConfigurationPhase.PARSE_CONFIGURATION);
