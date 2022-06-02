@@ -37,6 +37,10 @@ public class Person {
         this.sex = sex;
     }
 
+    public Person() {
+        System.out.println("new person");
+    }
+
     @Override
     public String toString() {
         return "Person{" +

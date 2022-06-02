@@ -185,15 +185,13 @@ final class PostProcessorRegistrationDelegate {
             ConfigurableListableBeanFactory beanFactory, Set<String> processedBeans,
             BeanDefinitionRegistry registry, Class<? extends Ordered> clazz) {
         List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
-
-        String[] postProcessorNames =
-                beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
-
-        for (String ppName : postProcessorNames) {
-            boolean reiterate = true;
-            while (reiterate) {
-                reiterate = false;
-                if (clazz == null || (beanFactory.isTypeMatch(ppName, PriorityOrdered.class) && !processedBeans.contains(ppName))) {
+        boolean reiterate = true;
+        while (reiterate) {
+            reiterate = false;
+            String[] postProcessorNames =
+                    beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
+            for (String ppName : postProcessorNames) {
+                if (!processedBeans.contains(ppName) && (clazz == null || beanFactory.isTypeMatch(ppName, clazz))) {
                     currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
                     processedBeans.add(ppName);
                     reiterate = true;
