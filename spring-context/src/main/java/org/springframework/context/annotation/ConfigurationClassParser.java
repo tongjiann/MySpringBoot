@@ -188,6 +188,7 @@ class ConfigurationClassParser {
 			}
 		}
 
+		// 前面处理完之后进行对延时处理队列对选择器进行处理
 		this.deferredImportSelectorHandler.process();
 	}
 
