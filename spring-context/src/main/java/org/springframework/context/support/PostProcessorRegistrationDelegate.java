@@ -106,6 +106,7 @@ final class PostProcessorRegistrationDelegate {
             // Separate between BeanDefinitionRegistryPostProcessors that implement
             // PriorityOrdered, Ordered, and the rest.
 
+            // 这里自己重写过，可能会出现问题
             registryProcessors.addAll(getRegistryProcessorsByOrderType(beanFactory, processedBeans, registry, PriorityOrdered.class));
 
             registryProcessors.addAll(getRegistryProcessorsByOrderType(beanFactory, processedBeans, registry, Ordered.class));
