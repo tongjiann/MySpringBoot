@@ -222,6 +222,7 @@ final class PostProcessorRegistrationDelegate {
         // to ensure that your proposal does not result in a breaking change:
         // https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
 
+        // 找到所有实现了BeanPostProcessor.class的类
         String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
         // Register BeanPostProcessorChecker that logs an info message when
@@ -240,6 +241,7 @@ final class PostProcessorRegistrationDelegate {
             if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
                 BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
                 priorityOrderedPostProcessors.add(pp);
+                // 加果poName对应的BeanPostProcessor实例出实现了MergedBeanDefinitionPostProcessor接口，那么将poName对应的bean实例添加到internalPostProcessors
                 if (pp instanceof MergedBeanDefinitionPostProcessor) {
                     internalPostProcessors.add(pp);
                 }
@@ -282,7 +284,8 @@ final class PostProcessorRegistrationDelegate {
         registerBeanPostProcessors(beanFactory, internalPostProcessors);
 
         // Re-register post-processor for detecting inner beans as ApplicationListeners,
-        // moving it to the end of the processor chain (for picking up proxies etc).
+        // moving it to the end of the processor chain (for picking up proxies etc.).
+        // 注册ApplicationListenerDetector到bf中
         beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(applicationContext));
     }
 
