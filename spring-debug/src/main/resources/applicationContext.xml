@@ -7,5 +7,5 @@
 
 <!--    </bean>-->
 <!--    <bean class="com.xiw.MyBeanFactoryPostProcessor"/>-->
-    <bean class="com.xiw.bdrpp.MyBeanDefinitionRegistryPostProcessor"/>
+<!--    <bean class="com.xiw.bdrpp.MyBeanDefinitionRegistryPostProcessor"/>-->
 </beans>

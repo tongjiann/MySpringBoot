@@ -600,6 +600,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
                 // Register bean processors that intercept bean creation.
                 // 注册bean处理器，不过只是注册，实际调用的地方是getBean方法
                 registerBeanPostProcessors(beanFactory);
+                // 空方法，用于扩展
                 beanPostProcess.end();
 
                 // Initialize message source for this context.
@@ -789,6 +790,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         }
 
         // Register default environment beans.
+        // 把从系统中读取到的信息存储到bf中
         if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
             beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
         }
@@ -998,7 +1000,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         }
 
         // Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
-        // 尽早初始化 LoadTimeWeaverAware bean，以便尽早注册它们的转换器。
+        // 尽早初始化 LoadTimeWeaverAwareBean，以便尽早注册它们的转换器。
         String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
         for (String weaverAwareName : weaverAwareNames) {
             getBean(weaverAwareName);

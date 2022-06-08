@@ -134,8 +134,7 @@ final class PostProcessorRegistrationDelegate {
         List<BeanFactoryPostProcessor> priorityOrderedPostProcessors = new ArrayList<>();
         List<String> orderedPostProcessorNames = new ArrayList<>();
         List<String> nonOrderedPostProcessorNames = new ArrayList<>();
-        for (
-                String ppName : postProcessorNames) {
+        for (String ppName : postProcessorNames) {
             // 过滤掉已经加载过的BeanFactoryPostProcessor
             // 根据实现的不同的Ordered的接口进行加载
             // PriorityOrdered Ordered 和剩余的
