@@ -247,6 +247,8 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
     }
 
     /**
+     * 添加cglib增强处理以及ImportAwareBeanPostProcessor增强器
+     *
      * Prepare the Configuration classes for servicing bean requests at runtime
      * by replacing them with CGLIB-enhanced subclasses.
      */
@@ -264,6 +266,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
             processConfigBeanDefinitions((BeanDefinitionRegistry) beanFactory);
         }
 
+        // CGLIB
         enhanceConfigurationClasses(beanFactory);
         beanFactory.addBeanPostProcessor(new ImportAwareBeanPostProcessor(beanFactory));
     }

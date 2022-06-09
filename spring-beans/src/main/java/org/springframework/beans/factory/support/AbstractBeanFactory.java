@@ -346,7 +346,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
 				}
-				// 对bean进行类型转换，如果是子类的bean，则合同父类的相关属性
+				// 对bean进行类型转换，如果是子类的bean，则合并父类的相关属性
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				// 检查mbd的合理性
 				checkMergedBeanDefinition(mbd, beanName, args);
@@ -377,6 +377,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 判断bean是不是单例的
 				if (mbd.isSingleton()) {
 					// 返回一个bean的单例对象，如果未注册则使用singletonBeanFactory创建并注册一个对象
+					// ObjectFactory是一个函数式接口，当调用其中当getObject方法当时候
+					//  才会将实际传递的lambda表达式中的实现逻辑进行执行
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							// 创建一个bean实例
@@ -1567,6 +1569,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				return AccessController.doPrivileged((PrivilegedExceptionAction<Class<?>>)
 						() -> doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
 			} else {
+				// ！！！！重要
 				return doResolveBeanClass(mbd, typesToMatch);
 			}
 		} catch (PrivilegedActionException pae) {
@@ -1813,6 +1816,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (!this.alreadyCreated.contains(beanName)) {
 					// Let the bean definition get re-merged now that we're actually creating
 					// the bean... just in case some of its metadata changed in the meantime.
+					// 当我们需要实际创建bean的时候，需要对当前bean进行重新合并，防止一些元数据被修改
 					clearMergedBeanDefinition(beanName);
 					this.alreadyCreated.add(beanName);
 				}
