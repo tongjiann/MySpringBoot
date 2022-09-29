@@ -1253,7 +1253,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 下述条件符合一个即可
 		// 存在可选构造方法
 		// 自动装配模型为函数自动装配
-		// 在BeanDefinion中设置了默认的构造函数
+		// 在BeanDefinition中设置了默认的构造函数
 		// 有参与构造函数列表的参数
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
@@ -1289,6 +1289,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		String outerBean = this.currentlyCreatedBean.get();
 		this.currentlyCreatedBean.set(beanName);
 		try {
+			// 调用Supplier#get方法
 			instance = instanceSupplier.get();
 		} finally {
 			if (outerBean != null) {

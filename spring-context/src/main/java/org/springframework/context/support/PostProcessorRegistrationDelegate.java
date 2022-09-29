@@ -78,13 +78,13 @@ final class PostProcessorRegistrationDelegate {
         if (beanFactory instanceof BeanDefinitionRegistry) {
             // 类型转换
             BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
-            // 此处希望大家做一个区分，两个接口是不同的，BeanDefinitionRegistryPostprocessor是BeanFactoryPostProcessor的子集
+            // 此处希望大家做一个区分，两个接口是不同的，BeanDefinitionRegistryPostProcessor是BeanFactoryPostProcessor的子集
             // BeanFactoryPostProcessor主要针对的操作对象是BeanFactory，而BeanDefinitionRegistryPostProcessor主要针对的操作对象是BeanDefinition
             // 存放BeanFactoryPostProcessor的集合
             List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>(0);
             // 存放BeanDefinitionRegistryPostprocessor的集合
             List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
-            // 首先处理入参中的beanFactoryPostProcessors，遍历所有的beanFactoryPostprocessors，将BeanDefinitionRegistryPostProcessor
+            // 首先处理入参中的beanFactoryPostProcessors，遍历所有的beanFactoryPostProcessors，将BeanDefinitionRegistryPostProcessor
             // 和BeanFactoryPostProcessor区分
             for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
                 //如果是BeanDefinitionRegistryPostProcessor

@@ -609,6 +609,7 @@ public abstract class ObjectUtils {
 		if (obj == null) {
 			return EMPTY_STRING;
 		}
+		// 设置我们看到的xxxService@123456
 		return obj.getClass().getName() + "@" + getIdentityHexString(obj);
 	}
 

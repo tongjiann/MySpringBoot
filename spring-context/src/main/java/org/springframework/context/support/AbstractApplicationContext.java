@@ -589,7 +589,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
             try {
                 // Allows post-processing of the bean factory in context subclasses.
-                // 子类覆盖方法做的额外处理
+                // 允许子类在准备好BF之后进行的额外操作
+				// 可扩展
                 postProcessBeanFactory(beanFactory);
 
                 StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
@@ -605,6 +606,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
                 // Initialize message source for this context.
                 // 进行国际化的操作，不重要,在springMVC的时候通过国际化的代码重点讲
+				// TODO 查看如何进行国际化
                 initMessageSource();
 
 				// 观察者模式
@@ -755,10 +757,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         // Configure the bean factory with context callbacks.
         // 重点 配置bean工厂的上下文回调
         // 添加bpp，ApplicationContextAwareProcessor此类用来完成 某些  Aware的调用
+		// 96742843-8604-47c4-b9e4-08fd6db7e8c1
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
         // 自动装配时忽略指定接口或类的依赖注入
         // 不懂这样做的意义是什么
         // 这些接口的实现是由容器通过set方法进行注入
+		// 717a0799-1db0-42c7-8cb7-139e5b0133d2
         beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
         beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
         beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
@@ -783,6 +787,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
         // 增加对AspectJ的支持，在java中织入分为三种方式，分为编译期织入，类加载期织入，运行期织入，编译期织入是指在java编译器，采用特殊的编译器，将切面织入到java类中，
         // 而类加载期织入则指通过特殊的类加载器，在类字节码加载到JVM时，织入切面，运行期织入则是采用cglib和jdk进行切街的织入
         // aspectj提供了两种织入方式，第一种是通过特殊编译器，在编译器，将aspectj语言编写的切面类织入到java类中，第二种是类加载期织入，就是下面的Load time weaving,
+		// TODO 这一块还没看，到时候看到AOP了再仔细看一下
         if (!NativeDetector.inNativeImage() && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
             beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
             // Set a temporary ClassLoader for type matching.
@@ -823,7 +828,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
      */
     protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         // 获取到上下文的bFPP的值，并且实例化调用执行所有已经注册的bFPP
-        // 默认情况下，通过getBeanFactoryPostprocessors(来获取己经注册的BFPP，但是默认是空的，那么问题来了，如果你想扩展，怎么进行扩展工作？
+        // 默认情况下，通过getBeanFactoryPostProcessors(来获取己经注册的BFPP，但是默认是空的，那么问题来了，如果你想扩展，怎么进行扩展工作？
         PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
         // Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime

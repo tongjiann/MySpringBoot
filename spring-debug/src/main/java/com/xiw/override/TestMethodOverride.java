@@ -1,6 +1,5 @@
-package com.xiw;
+package com.xiw.override;
 
-import com.xiw.override.FruitPlate;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
